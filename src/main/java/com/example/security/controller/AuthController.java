@@ -4,6 +4,7 @@ import com.example.security.domain.Usuario;
 import com.example.security.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 public class AuthController {
@@ -63,4 +65,19 @@ public class AuthController {
         return mav;
     }
 
+    @GetMapping("/access-denied")
+    public ModelAndView accessDenied(Principal usuario){
+        ModelAndView mav = new ModelAndView();
+        if (usuario != null) {
+            mav.addObject("msg", "Hi " + usuario.getName()
+                    + ", you do not have permission to access this page!");
+        } else {
+            mav.addObject("msg",
+                    "You do not have permission to access this page!");
+        }
+
+        mav.setViewName("403");
+        return mav;
+
+    }
 }

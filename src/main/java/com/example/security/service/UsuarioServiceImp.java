@@ -34,6 +34,12 @@ public class UsuarioServiceImp implements UsuarioService {
 
     @Override
     public Boolean isUserAlreadyPresent(Usuario usuario) {
-        return false;
+        boolean isUserAlreadyExists = false;
+        Usuario existingUser = usuarioRepository.findByUsername(usuario.getUsername());
+        // If user is found in database, then then user already exists.
+        if(existingUser != null){
+            isUserAlreadyExists = true;
+        }
+        return isUserAlreadyExists;
     }
 }
